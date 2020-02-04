@@ -68,23 +68,9 @@ extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'sphinx.ext.todo',
               'sphinx.ext.doctest', 'sphinx.ext.ifconfig', 'sphinx.ext.mathjax',
               'sphinx.ext.napoleon']
 extensions.append('recommonmark')
-extensions.append('recommonmark')
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
-
-
-# To configure AutoStructify
-def setup(app):
-    from recommonmark.transform import AutoStructify
-    app.add_config_value('recommonmark_config', {
-        'auto_toc_tree_section': 'Contents',
-        'enable_eval_rst': True,
-        'enable_math': True,
-        'enable_inline_math': True
-    }, True)
-    app.add_transform(AutoStructify)
-
 
 # To configure AutoStructify
 def setup(app):
@@ -161,7 +147,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
