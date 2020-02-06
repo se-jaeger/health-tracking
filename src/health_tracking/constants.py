@@ -31,3 +31,12 @@ ELEMENT_TAGS = {
     ACTIVITY_SUMMARY_TAG,
     CLINICAL_RECORD_TAG
 }
+
+# Workout Element
+
+WORKOUT_TYPE = "workoutActivityType"
+
+
+# RegEx strings
+
+WORKOUT_REGEX = r"^HKWorkoutActivityType(.+)$"

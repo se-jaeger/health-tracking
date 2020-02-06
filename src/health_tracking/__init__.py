@@ -14,6 +14,7 @@ finally:
 ##########################################
 
 
+import re
 import os
 import io
 import shutil
@@ -111,9 +112,15 @@ class AppleHealthParser(object):
         Returns `Workout` Elements. Shortens the workout types.
 
         Returns:
-            pd.DataFrame: of type `Workout` or `None` if empty
+            (pd.DataFrame, set): of type `Workout` or `None` if empty and set of available workout types
         """
-        return self.extract_elements_of_type(constants.WORKOUT_TAG)
+        data_frame = self._extract_elements_of_type(constants.WORKOUT_TAG)
+        data_frame[constants.WORKOUT_TYPE] = data_frame.apply(
+            lambda row: re.match(constants.WORKOUT_REGEX, row[constants.WORKOUT_TYPE]).group(1),
+            axis=1
+        )
+
+        return data_frame, set(data_frame[constants.WORKOUT_TYPE])
 
     def extract_me(self) -> pd.DataFrame:
         """
