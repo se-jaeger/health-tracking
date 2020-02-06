@@ -82,9 +82,9 @@ class AppleHealthParser(object):
 
         return result
 
-    def extract_elements_of_type(self, element_type: str) -> pd.DataFrame:
+    def _extract_elements_of_type(self, element_type: str) -> pd.DataFrame:
         """
-        Returns a ``DataFrame`` with the elements of ``element_type``.
+        Returns a ``DataFrame`` with the elements of ``element_type``. Do not use by your own!
 
         Args:
             element_type (str): Need to fit one of ``constants.ELEMENT_TAGS``
@@ -106,10 +106,9 @@ class AppleHealthParser(object):
 
         return None if result.empty else result
 
-    #### for convenience
     def extract_workouts(self) -> pd.DataFrame:
         """
-        For convenience. Returns `Workout` Elements.
+        Returns `Workout` Elements. Shortens the workout types.
 
         Returns:
             pd.DataFrame: of type `Workout` or `None` if empty
@@ -118,55 +117,55 @@ class AppleHealthParser(object):
 
     def extract_me(self) -> pd.DataFrame:
         """
-        For convenience. Returns `Me` Elements.
+        Returns `Me` Elements.
 
         Returns:
             pd.DataFrame: of type `Me` or `None` if empty
         """
-        return self.extract_elements_of_type(constants.ME_TAG)
+        return self._extract_elements_of_type(constants.ME_TAG)
 
     def extract_records(self) -> pd.DataFrame:
         """
-        For convenience. Returns `Record` Elements.
+        Returns `Record` Elements.
 
         Returns:
             pd.DataFrame: of type `Record` or `None` if empty
         """
-        return self.extract_elements_of_type(constants.RECORD_TAG)
+        return self._extract_elements_of_type(constants.RECORD_TAG)
 
     def extract_correlations(self) -> pd.DataFrame:
         """
-        For convenience. Returns `Correlation` Elements.
+        Returns `Correlation` Elements.
 
         Returns:
             pd.DataFrame: of type `Correlation` or `None` if empty
         """
-        return self.extract_elements_of_type(constants.CORRELATION_TAG)
+        return self._extract_elements_of_type(constants.CORRELATION_TAG)
 
     def extract_activity_summaries(self) -> pd.DataFrame:
         """
-        For convenience. Returns `ActivitySummary` Elements.
+        Returns `ActivitySummary` Elements.
 
         Returns:
             pd.DataFrame: of type `ActivitySummary` or `None` if empty
         """
-        return self.extract_elements_of_type(constants.ACTIVITY_SUMMARY_TAG)
+        return self._extract_elements_of_type(constants.ACTIVITY_SUMMARY_TAG)
 
     def extract_clinical_records(self) -> pd.DataFrame:
         """
-        For convenience. Returns `ClinicalRecord` Elements.
+        Returns `ClinicalRecord` Elements.
 
         Returns:
             pd.DataFrame: of type `ClinicalRecord` or `None` if empty
         """
-        return self.extract_elements_of_type(constants.CLINICAL_RECORD_TAG)
+        return self._extract_elements_of_type(constants.CLINICAL_RECORD_TAG)
 
     def get_export_date(self) -> pd.Timestamp:
         """
-        For convenience. Returns the ``pd.Timestamp`` of exporting.
+        Returns the ``pd.Timestamp`` of exporting.
 
         Returns:
             pd.Timestamp: Export timestamp
         """
-        data_frame = self.extract_elements_of_type(constants.EXPORT_DATE_TAG)
+        data_frame = self._extract_elements_of_type(constants.EXPORT_DATE_TAG)
         return pd.to_datetime(data_frame["value"])[0]
