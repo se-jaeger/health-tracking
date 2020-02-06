@@ -5,7 +5,7 @@ This repository provides some [notebooks](./notebooks) to analyze the [Apple Hea
 
 ## Description
 
-Add the exported dump ([see here for manual](https://appletoolbox.com/how-to-export-apple-health-data-from-your-iphone-and-apple-watch/#Export_raw_Health_data_from_your_iPhone_and_Apple_Watch)), usally named `export.zip`, into the directory `data/raw/export.zip`. The `AppleHealthParser` is able to unzip and parse it.
+Add the exported dump ([see here for information](https://appletoolbox.com/how-to-export-apple-health-data-from-your-iphone-and-apple-watch/#Export_raw_Health_data_from_your_iPhone_and_Apple_Watch)), usally named `export.zip`, into the directory `data/raw/export.zip`. The `AppleHealthParser` is able to unzip and parse it.
 
 Install the package as shown in the [installation](#installation) section. Or simply use:
 
