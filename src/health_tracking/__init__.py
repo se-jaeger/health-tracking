@@ -26,7 +26,20 @@ import xml.etree.ElementTree as ET
 from . import constants
 
 
-class AppleHealthParser(object):
+class Singleton(type):
+    """
+    Is used as `metaclass` to achieve a singleton pattern.
+    """
+
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+
+class AppleHealthParser(metaclass=Singleton):
 
     def __init__(
         self,
