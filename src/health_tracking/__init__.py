@@ -40,6 +40,14 @@ class Singleton(type):
 
 
 class AppleHealthParser(metaclass=Singleton):
+    """
+    Parse and gives access to Apple Health App dump data.
+
+    Args:
+        zip_dump_path (str, optional): Path to the zipped data dump. Defaults to constants.ZIP_PATH.
+        unzip_path (str, optional): Path to the unzipped data dump. Defaults to constants.UNZIP_PATH.
+        force_unzip (bool, optional): Flag to force unzipping the data again. Can be useful for new data. Defaults to False.
+    """
 
     def __init__(
         self,
@@ -47,14 +55,6 @@ class AppleHealthParser(metaclass=Singleton):
         unzip_path: str = constants.UNZIP_PATH,
         force_unzip: bool = False
     ) -> None:
-        """
-        Parse and gives access to Apple Health App dump data.
-
-        Args:
-            zip_dump_path (str, optional): Path to the zipped data dump. Defaults to constants.ZIP_PATH.
-            unzip_path (str, optional): Path to the unzipped data dump. Defaults to constants.UNZIP_PATH.
-            force_unzip (bool, optional): Flag to force unzipping the data again. Can be useful for new data. Defaults to False.
-        """
 
         # give information about may changing Version
         print("AppleHealthParser is tested for HealthKit Export Version: 11")
@@ -117,7 +117,7 @@ class AppleHealthParser(metaclass=Singleton):
             ValueError: If wrong ``element_type`` is given
 
         Returns:
-            pd.DataFrame: of given ``element_type`` or `None` if empty
+            pd.DataFrame: of given ``element_type`` or ``None`` if empty
         """
 
         if element_type not in constants.ELEMENT_TAGS:
@@ -130,12 +130,12 @@ class AppleHealthParser(metaclass=Singleton):
 
         return None if result.empty else result
 
-    def extract_workouts(self) -> pd.DataFrame:
+    def extract_workouts(self) -> (pd.DataFrame, set):
         """
-        Returns `Workout` Elements. Shortens the workout types.
+        Returns ``Workout`` elements and ``set`` of all workout existing types. Shortens the workout types.
 
         Returns:
-            (pd.DataFrame, set): of type `Workout` or `None` if empty and set of available workout types
+            (pd.DataFrame, set): of type ``Workout`` or ``None`` if empty and set of available workout types
         """
 
         # increase performace by do not parse again.
@@ -143,7 +143,7 @@ class AppleHealthParser(metaclass=Singleton):
 
             self._workouts = self._extract_elements_of_type(constants.WORKOUT_TAG)
             self._workouts[constants.WORKOUT_TYPE] = self._workouts.apply(
-                lambda row: re.match(constants.WORKOUT_REGEX, row[constants.WORKOUT_TYPE]).group(1),
+                lambda row: re.match(constants.WORKOUT_REGEX, row[constants.WORKOUT_TYPE]).group(1).lower(),
                 axis=1
             )
             self._workout_types = set(self._workouts[constants.WORKOUT_TYPE])
@@ -152,10 +152,10 @@ class AppleHealthParser(metaclass=Singleton):
 
     def extract_me(self) -> pd.DataFrame:
         """
-        Returns `Me` Elements.
+        Returns ``Me`` elements.
 
         Returns:
-            pd.DataFrame: of type `Me` or `None` if empty
+            pd.DataFrame: of type ``Me`` or ``None`` if empty
         """
 
         # increase performace by do not parse again.
@@ -166,10 +166,10 @@ class AppleHealthParser(metaclass=Singleton):
 
     def extract_records(self) -> pd.DataFrame:
         """
-        Returns `Record` Elements.
+        Returns ``Record`` elements.
 
         Returns:
-            pd.DataFrame: of type `Record` or `None` if empty
+            pd.DataFrame: of type ``Record`` or ``None`` if empty
         """
 
         # increase performace by do not parse again.
@@ -180,10 +180,10 @@ class AppleHealthParser(metaclass=Singleton):
 
     def extract_correlations(self) -> pd.DataFrame:
         """
-        Returns `Correlation` Elements.
+        Returns ``Correlation`` elements.
 
         Returns:
-            pd.DataFrame: of type `Correlation` or `None` if empty
+            pd.DataFrame: of type ``Correlation`` or ``None`` if empty
         """
 
         # increase performace by do not parse again.
@@ -194,10 +194,10 @@ class AppleHealthParser(metaclass=Singleton):
 
     def extract_activity_summaries(self) -> pd.DataFrame:
         """
-        Returns `ActivitySummary` Elements.
+        Returns ``ActivitySummary`` elements.
 
         Returns:
-            pd.DataFrame: of type `ActivitySummary` or `None` if empty
+            pd.DataFrame: of type ``ActivitySummary`` or ``None`` if empty
         """
 
         # increase performace by do not parse again.
@@ -208,10 +208,10 @@ class AppleHealthParser(metaclass=Singleton):
 
     def extract_clinical_records(self) -> pd.DataFrame:
         """
-        Returns `ClinicalRecord` Elements.
+        Returns ``ClinicalRecord`` elements.
 
         Returns:
-            pd.DataFrame: of type `ClinicalRecord` or `None` if empty
+            pd.DataFrame: of type ``ClinicalRecord`` or ``None`` if empty
         """
 
         # increase performace by do not parse again.
