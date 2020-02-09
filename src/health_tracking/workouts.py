@@ -166,6 +166,15 @@ class Workouts(object):
         else:
             raise ValueError(f"Parameter 'plot_type' is invalid!\n\tGiven: {plot_type}")
 
+    def columns(self) -> list:
+        """
+        Returns column dames of ``DataFrame`` as list.
+
+        Returns:
+            list: All column names
+        """
+        return self.workouts.columns.tolist()
+
 
 def calc_minutes_per_km(row: pd.DataFrame) -> pd.Series:
     """
