@@ -1,0 +1,6 @@
+# This file is only left to be used by ReadTheDocs
+sphinx
+recommonmark
+sphinx_rtd_theme
+pandas
+seaborn
