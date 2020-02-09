@@ -80,6 +80,28 @@ class Workouts(object):
         show_new_years: bool = True,
         legend: str = "brief"
     ):
+        """
+        Convenient wrapper for ``matplotlib`` and ``seaborn`` functions to easily plot ``Workouts``.
+
+        Args:
+            x (str): Column name for the horizontal axis
+            y (str): Column name for the vertical axis
+            plot_type (str): Defines the plotting type. Possible: {"scatter" | "joint"}
+            workout_type (str, optional): Defines the type of workouts for plotting. Defaults to "runnings".
+            outlier ((int, int), optional): Defines a range of the vertical axis to be plotted. Defaults to None.
+            z (str, optional): Column name for the colors used in scatter plots. Defaults to None.
+            kind (str, optional): Plot type for joint plot. Possible: { "scatter" | "reg" | "resid" | "kde" | "hex" }. Defaults to "reg".
+            xlim ((int, int), optional): Defines the range of the horizontal axis to be plotted.
+                By using single ``float`` value, the whole range is plotted with a small margin. Defaults to 0.01.
+            show_new_years (bool, optional): Shows vertical lines to visualize the new years in scatter plot. Defaults to True.
+            legend (str, optional): How to draw the legend. Possible: {"brief" | "full" | False}. Defaults to "brief".
+
+        Raises:
+            ValueError: For unvalid parameter values or types.
+
+        Returns:
+            object: The plot object.
+        """
 
         # check x, y, z parameter
         if x not in constants.WORKOUT_PLOTTING_CLOUMN or \
@@ -87,7 +109,7 @@ class Workouts(object):
                 (z is not None and z not in constants.WORKOUT_PLOTTING_CLOUMN):
 
             raise ValueError(
-                f"Parameter 'x', 'y', and 'z' must be one of: {constants.WORKOUT_PLOTTING_CLOUMN}\n\tGiven: \tx: {x}\n\t\tx: {y}\n\t\tx: {z}"
+                f"Parameter 'x', 'y', and 'z' must be one of: {constants.WORKOUT_PLOTTING_CLOUMN}\n\tGiven: \tx: {x}\n\t\ty: {y}\n\t\tz: {z}"
             )
 
         # check workout_type parameter
