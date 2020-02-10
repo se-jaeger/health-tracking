@@ -17,7 +17,7 @@ pip install health-tracking
 
 ## TODO
 
-- [ ] Use inheritance for classes
+- [x] Use inheritance for classes
 - [ ] Add reparsing feature
     - Also reparse parents/childs
 

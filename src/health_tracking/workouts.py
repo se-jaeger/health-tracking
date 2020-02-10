@@ -1,10 +1,11 @@
 import pandas as pd
 import seaborn as sns
 
-from . import AppleHealthParser, constants
+from . import constants
+from .elements import Elements
 
 
-class Workouts(object):
+class Workouts(Elements):
     """
     Parse and gives access to ``Workout`` data of a Apple Health App dump data.
     Provides plotting functionalities.
@@ -22,6 +23,8 @@ class Workouts(object):
         force_unzip: bool = False
     ) -> None:
 
+        super().__init__()
+
         def create_offset_column(row: pd.DataFrame) -> None:
             """
             Helper for creating offset column since the first training
@@ -32,7 +35,6 @@ class Workouts(object):
             first_workout = row[constants.WORKOUT_COLUMN_DATE][0]
             row[constants.WORKOUT_COLUMN_OFFSET] = row.apply(lambda row: (row[constants.WORKOUT_COLUMN_DATE] - first_workout).days, axis=1)
 
-        self._parser = AppleHealthParser(zip_dump_path, unzip_path, force_unzip)
         self.workouts, self.workout_types = self._parser.extract_workouts()
         self._valid_data_frames = [*[f"{workout_type}s" for workout_type in self.workout_types], "workouts"]
 
@@ -49,24 +51,6 @@ class Workouts(object):
 
             self.__setattr__(f"{workout_type.lower()}s", type_df)
 
-    def __getitem__(self, workout_type: str) -> pd.DataFrame:
-        """
-        Get the ``DataFrame``s with the help of subscriptions.
-
-        Args:
-            workout_type (str): One of the existing ``workout_types`` or ``workouts`` for the whole data
-
-        Raises:
-            ValueError: If a incorrect ``workout_type`` is give
-
-        Returns:
-            pd.DataFrame: The ``DataFrame`` of type ``workout_type``
-        """
-        if workout_type not in self._valid_data_frames:
-            raise ValueError(f"'workout_type' need to be one of: {self._valid_data_frames}\n\tGiven: {workout_type}")
-
-        return self.__getattribute__(workout_type)
-
     def plot(
         self,
         x: str,
@@ -79,7 +63,7 @@ class Workouts(object):
         xlim: (int, int) = 0.01,
         show_new_years: bool = True,
         legend: str = "brief"
-    ):
+    ) -> object:
         """
         Convenient wrapper for ``matplotlib`` and ``seaborn`` functions to easily plot ``Workouts``.
 
@@ -166,13 +150,13 @@ class Workouts(object):
             raise ValueError(f"Parameter 'plot_type' is invalid!\n\tGiven: {plot_type}")
 
     def columns(self) -> list:
-        """
-        Returns column dames of ``DataFrame`` as list.
-
-        Returns:
-            list: All column names
-        """
         return self.workouts.columns.tolist()
+
+    def __getitem__(self, type: str) -> pd.DataFrame:
+        if type not in self._valid_data_frames:
+            raise ValueError(f"'type' need to be one of: {self._valid_data_frames}\n\tGiven: {type}")
+
+        return self.__getattribute__(type)
 
 
 def calc_minutes_per_km(row: pd.DataFrame) -> pd.Series:
