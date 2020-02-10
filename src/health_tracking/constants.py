@@ -32,6 +32,7 @@ ELEMENT_TAGS = {
     CLINICAL_RECORD_TAG
 }
 
+
 # Workout Element
 
 WORKOUT_TYPE = "workoutActivityType"

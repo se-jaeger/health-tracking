@@ -178,7 +178,7 @@ class Workouts(object):
 def calc_minutes_per_km(row: pd.DataFrame) -> pd.Series:
     """
     Helper function that calculates the pace as minutes per kilometer.
-    Apply via: ``data_frame.applyc(alc_minutes_per_km, axis=1)``.
+    Apply via: ``data_frame.apply(calc_minutes_per_km, axis=1)``.
 
     Args:
         row (pd.DataFrame): Row of workouts ``pd.DataFrame`` as ``pd.Series``
