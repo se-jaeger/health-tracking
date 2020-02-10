@@ -156,10 +156,9 @@ class Workouts(object):
 
             scatter_plot = sns.scatterplot(x, y, data=data, hue=z, legend=legend)
 
-            # FIXME: does not plot vlines
             if show_new_years:
                 for new_year_offset in get_new_years_offsets(data):
-                    scatter_plot.axvline(new_year_offset, data[y].min(), data[y].max())
+                    scatter_plot.axvline(new_year_offset, 0, 1)
 
             return scatter_plot
 
